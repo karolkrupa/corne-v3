@@ -26,3 +26,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DYNAMIC_KEYMAP_LAYER_COUNT 8
 
 // #define VIALRGB_NO_DIRECT
+
+#ifndef TAPPING_TERM
+#  define TAPPING_TERM 200
+#endif
+#define TAPPING_TERM_THUMB 150
+#ifndef TAPPING_TERM_PER_KEY
+#  define TAPPING_TERM_PER_KEY
+#endif
+
+#ifndef PERMISSIVE_HOLD
+#  define PERMISSIVE_HOLD
+#endif
+#ifndef PERMISSIVE_HOLD_PER_KEY
+#  define PERMISSIVE_HOLD_PER_KEY
+#endif
+
+#ifndef HOLD_ON_OTHER_KEY_PRESS
+#  define HOLD_ON_OTHER_KEY_PRESS
+#endif
+#ifndef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+#  define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+#endif
+
+#ifndef RETRO_TAPPING
+#  define RETRO_TAPPING
+#endif
+#ifndef RETRO_TAPPING_PER_KEY
+#  define RETRO_TAPPING_PER_KEY
+#endif
+
+//#define SPECULATIVE_HOLD
+
+#ifndef QUICK_TAP_TERM
+#  define QUICK_TAP_TERM 100
+#endif
+
+#ifndef CHORDAL_HOLD
+#  define CHORDAL_HOLD
+#endif
+
+#ifndef FLOW_TAP_TERM
+#  define FLOW_TAP_TERM 50
+#endif

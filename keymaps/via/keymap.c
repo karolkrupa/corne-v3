@@ -76,8 +76,12 @@ enum custom_keycodes {
 #define HM_RL3  KC_RALT
 #define HM_RL4  KC_RGUI
 
+
 // Shortcuts
 #define C_EEPROM  QK_CLEAR_EEPROM
+
+combo_t key_combos[] = {};
+const key_override_t *key_overrides[] = {};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3(
@@ -128,6 +132,44 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   )
 };
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LWR_SPC:
+        case LGUI_SPC:
+        //case LAT_TAB:
+        case RSE_BSP:
+            return TAPPING_TERM_THUMB;
+        default:
+            return TAPPING_TERM;
+    }
+}
+
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LGUI_SPC:
+        case RSE_BSP:
+            return true;
+        default:
+            return false;
+    }
+}
+
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case HM_D: // left alt
+        case HM_S: // left shift
+        case HM_K: // right alt
+        case HM_L: // right shift
+        case HM_LLD: // left alt lower layer
+        case HM_LLS: // left shift lower layer
+        case HM_LRK: // right alt lower layer
+        case HM_LRL: // right shift lower layer
+            return true;
+        default:
+            return false;
+    }
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -202,3 +244,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
+static bool lat_tab_pressed = false;
+bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
+ 	if (keycode == LAT_TAB) {
+        lat_tab_pressed = record->event.pressed;
+    }
+
+    if (lat_tab_pressed && keycode != LAT_TAB) {
+        return false;
+    }
+
+    switch (keycode) {
+        case LWR_SPC:
+        case RSE_BSP:
+        case LAT_TAB:
+        //case LGUI_SPC:
+            return true;
+        default:
+            return false;
+    }
+}
+
+bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
+                      uint16_t other_keycode, keyrecord_t* other_record) {
+    // Exceptionally allow some one-handed chords for hotkeys.
+    switch (tap_hold_keycode) {
+        case LGUI_SPC:
+            if (other_keycode == KC_C || other_keycode == KC_V || other_keycode == KC_S || other_keycode == KC_Z) {
+                return true;
+            }
+            break;
+    }
+    // Otherwise defer to the opposite hands rule.
+    return get_chordal_hold_default(tap_hold_record, other_record);
+}

@@ -18,7 +18,7 @@
         "rgblight": false,
         "rgb_matrix": true,
         "wpm": true,
-        "auto_shift": true,
+        "auto_shift": false,
         "combo": true,
         "key_override": true
     },
@@ -51,9 +51,12 @@
                 "matrix_state": true,
                 "oled": false,
                 "wpm": true,
-                "modifiers": true,
+                "modifiers": false,
                 "indicators": false
             }
+        },
+        "usb_detect": {
+            "enabled": false
         }
     },
     "community_layouts": [ "split_3x5_3", "split_3x6_3" ],
