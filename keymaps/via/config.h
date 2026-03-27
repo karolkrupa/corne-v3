@@ -39,7 +39,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define QUICK_TAP_TERM 100
 
 #define CHORDAL_HOLD
-//#define FLOW_TAP_TERM 3500
-
 
 #define FLOW_TAP_TERM 50

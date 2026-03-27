@@ -5,6 +5,9 @@
 #include "anim_cat.c"
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+	oled_off();
+	oled_clear();
+
     if (is_keyboard_master()) {
         return OLED_ROTATION_270;
     }
@@ -143,7 +146,7 @@ void render_layer_state(void) {
 }
 
 bool oled_task_user(void) {
-    static bool     startup_done  = false;
+    static bool     initialized  = false;
     static uint32_t startup_timer = 0;
 
 #if OLED_TIMEOUT > 0
@@ -153,20 +156,18 @@ bool oled_task_user(void) {
     }
 #endif
 
-    // Keep OLED off during startup so content is rendered into buffer first.
-    // Turn on only after the buffer has been populated to avoid showing garbage.
-    if (!startup_done) {
+    if (!initialized)  {
         if (startup_timer == 0) {
             startup_timer = timer_read32();
         }
-        oled_off();
-        if (timer_elapsed32(startup_timer) >= 500) {
-            startup_done = true;
+
+        if (timer_elapsed32(startup_timer) >= 1000) {
+            initialized = true;
             oled_on();
         }
-    } else {
-        oled_on();
-    }
+    }else {
+		oled_on();
+	}
 
     if (is_keyboard_master()) {
         oled_set_cursor(0, 1);

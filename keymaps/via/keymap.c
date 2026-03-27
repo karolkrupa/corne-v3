@@ -20,9 +20,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdio.h>
 
+
 #ifdef OLED_ENABLE
+
 #include "oled.c"
 #endif
+
+//void keyboard_pre_init_kb(void) {
+//    setPinInputHigh(GP21); // ustawia input + pull-up
+//}
 
 enum custom_layers {
   _QWERTY,
