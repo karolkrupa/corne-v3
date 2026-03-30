@@ -246,7 +246,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         break;
     }
 
+	#ifdef OLED_ENABLE
 	oled_process_record_user(keycode, record);
+	#endif
     return true;
 };
 
