@@ -28,8 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PERMISSIVE_HOLD
 #define PERMISSIVE_HOLD_PER_KEY
 
-#define HOLD_ON_OTHER_KEY_PRESS
-#define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+//#define HOLD_ON_OTHER_KEY_PRESS
+//#define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
 #define RETRO_TAPPING
 #define RETRO_TAPPING_PER_KEY
@@ -40,4 +40,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define CHORDAL_HOLD
 
-#define FLOW_TAP_TERM 50
+//#define FLOW_TAP_TERM 80
