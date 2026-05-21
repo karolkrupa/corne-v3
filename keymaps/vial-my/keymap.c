@@ -21,10 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 
 
-//void keyboard_pre_init_kb(void) {
-//    setPinInputHigh(GP21); // ustawia input + pull-up
-//}
-
 enum custom_layers {
   _QWERTY,
   _LOWER,
@@ -86,8 +82,6 @@ enum custom_keycodes {
 // Shortcuts
 #define C_EEPROM  QK_CLEAR_EEPROM
 
-combo_t key_combos[] = {};
-const key_override_t *key_overrides[] = {};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3(
@@ -138,155 +132,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   )
 };
-
-uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case LWR_SPC:
-        case LGUI_SPC:
-        case RCTL_BSP:
-        //case LALT_TAB:
-        case RSE_BSP:
-            return TAPPING_TERM_THUMB;
-        default:
-            return TAPPING_TERM;
-    }
-}
-
-bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case LGUI_SPC:
-        case RCTL_BSP:
-        case RSE_BSP:
-        case HM_K:
-        case HM_L:
-        case HM_F:
-        case HM_D:
-            return true;
-        default:
-            return false;
-    }
-}
-
-bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case HM_D: // left alt
-        case HM_S: // left shift
-        case HM_K: // right alt
-        case HM_L: // right shift
-        case HM_LLD: // left alt lower layer
-        case HM_LLS: // left shift lower layer
-        case HM_LRK: // right alt lower layer
-        case HM_LRL: // right shift lower layer
-            return true;
-        default:
-            return false;
-    }
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-    	case MACOS_LOCK:
-        	if (record->event.pressed) {
-            	register_code(KC_LGUI);
-            	register_code(KC_LCTL);
-            	register_code(KC_Q);
-        	} else {
-				unregister_code(KC_LGUI);
-            	unregister_code(KC_LCTL);
-            	unregister_code(KC_Q);
-        	}
-        break;
-    	case MACOS_SS:
-        	if (record->event.pressed) {
-            	register_code(KC_LGUI);
-            	register_code(KC_LCTL);
-            	register_code(KC_LSFT);
-            	register_code(KC_4);
-        	} else {
-				unregister_code(KC_LGUI);
-            	unregister_code(KC_LCTL);
-            	unregister_code(KC_LSFT);
-            	unregister_code(KC_4);
-        	}
-			return false;
-		case MACOS_SCR_L:
-			if (record->event.pressed) {
-            	register_code(KC_LCTL);
-            	register_code(KC_LEFT);
-        	} else {
-				unregister_code(KC_LCTL);
-            	unregister_code(KC_LEFT);
-        	}
-
-            return false;
-		case MACOS_SCR_R:
-			if (record->event.pressed) {
-            	register_code(KC_LCTL);
-            	register_code(KC_RGHT);
-        	} else {
-				unregister_code(KC_LCTL);
-            	unregister_code(KC_RGHT);
-        	}
-
-            return false;
-		case MACOS_SCR_SH:
-			if (record->event.pressed) {
-            	register_code(KC_LCTL);
-            	register_code(KC_UP);
-        	} else {
-				unregister_code(KC_LCTL);
-            	unregister_code(KC_UP);
-        	}
-
-            return false;
-		case MACOS_SPOTLIGHT:
-			if (record->event.pressed) {
-            	register_code(KC_LGUI);
-            	register_code(KC_SPC);
-        	} else {
-				unregister_code(KC_LGUI);
-            	unregister_code(KC_SPC);
-        	}
-
-            return false;
-        break;
-    }
-
-    return true;
-};
-
-static bool lat_tab_pressed = false;
-bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
- 	if (keycode == LALT_TAB) {
-        lat_tab_pressed = record->event.pressed;
-    }
-
-    if (lat_tab_pressed && keycode != LALT_TAB) {
-        return false;
-    }
-
-    switch (keycode) {
-        case LWR_SPC:
-        case RSE_BSP:
-        case LALT_TAB:
-        //case LGUI_SPC:
-        //case RCTL_BSP:
-            return true;
-        default:
-            return false;
-    }
-}
-
-bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
-                      uint16_t other_keycode, keyrecord_t* other_record) {
-    // Exceptionally allow some one-handed chords for hotkeys.
-    switch (tap_hold_keycode) {
-        case LGUI_SPC:
-            if (other_keycode == KC_C || other_keycode == KC_V || other_keycode == KC_S || other_keycode == KC_Z) {
-                return true;
-            }
-            break;
-    }
-    // Otherwise defer to the opposite hands rule.
-    return get_chordal_hold_default(tap_hold_record, other_record);
-}
